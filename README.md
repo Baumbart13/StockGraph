@@ -16,17 +16,18 @@ Chartvorlage:
 
 Tips zur Chartdarstellung
 
-- X-Achse Datum, nicht zuviele Datumstrings, reichen ca. 10
-- Y-Achse nicht bei Null beginnen, reicht 10% unterm MIN-Wert und 10% über MAX-Wert (Xcharts macht das automatisch)
-- ist der letzte Close wert überm 200er, dann Chart-Hintergrund grün, sonst rot
-- keine „Knubbel“/Kreise in den Plots, nur eine Linie
+* [ ] X-Achse Datum, nicht zuviele Datumstrings, reichen ca. 10
+* [x] Y-Achse nicht bei Null beginnen, reicht 10% unterm MIN-Wert und 10% über MAX-Wert (Xcharts macht das automatisch)
+* [x] ist der letzte Close wert überm 200er, dann Chart-Hintergrund grün, sonst rot
+* [x] keine „Knubbel“/Kreise in den Plots, nur eine Linie
 
 
 Erweiterungen im 2ten Semester:
 
-- Splitcorrection   - Check
-- Beginn und Enddatumangabe vorm Zeichnen für die Charts
-- Charts als Bild abspeichern   - Check
-- Mehrere Aktien hintereinander vond er API abrufen   - Check
-- Mehrere Aktien hintereinander zeichnen    - Check
-- Mehrere Charts auf eine mini-Website anzeigen
+* [ ] Splitcorrection
+* [ ] Beginn und Enddatumangabe vorm Zeichnen für die Charts
+* [x] Charts als Bild abspeichern
+* [x] Mehrere Aktien hintereinander von der API abrufen
+* [x] Mehrere Aktien hintereinander zeichnen
+* [x] Durchschnitte dynamisch in Datenbank hinterlegen und abrufen
+* [ ] Mehrere Charts auf eine mini-Website anzeigen
