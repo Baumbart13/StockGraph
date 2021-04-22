@@ -7,12 +7,12 @@ import at.htlAnich.stockUpdater.api.ApiParser;
 import static at.htlAnich.tools.BaumbartLogger.logf;
 
 public class LoadCredentialsThread extends Thread {
-	private Thread mThread = null;
-	private LoadType mThreadType = null;
-	private String mFile = "";
-	private StockResults mSymbols = null;
-	private ApiParser mApiParser = null;
-	private StockDatabase mDatabase = null;
+	private Thread mThread		= null;
+	private LoadType mThreadType	= null;
+	private String mFile		= "";
+	private StockResults mSymbols	= null;
+	private ApiParser mApiParser	= null;
+	private StockDatabase mDatabase	= null;
 
 	public enum LoadType{
 		API,

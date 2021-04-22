@@ -5,16 +5,16 @@ import org.jetbrains.annotations.NotNull;
 import java.time.LocalDate;
 
 public class StockSymbolPoint {
-	private String	mSymbol,
-					mName = "";
-	private StockExchangeType	mExchange;
-	private StockAssetType	mAsset;
+	private String	mSymbol = "",
+			mName = "";
+	private StockExchangeType mExchange;
+	private StockAssetType mAsset;
 	private LocalDate	mIpoDate,
-						mDelistingDate;
-	private StockStatus	mIsActive;
+				mDelistingDate;
+	private StockStatus mIsActive;
 
 	@Override
-	protected StockSymbolPoint clone() throws CloneNotSupportedException {
+	protected StockSymbolPoint clone() {
 		return new StockSymbolPoint(this);
 	}
 

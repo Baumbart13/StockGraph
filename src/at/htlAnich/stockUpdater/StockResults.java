@@ -9,13 +9,13 @@ import java.util.List;
 
 public class StockResults implements CanBeTable {
 	private HashMap<StockValueType, Float>	mLowerBounds,
-											mUpperBounds;
+						mUpperBounds;
 	private LocalDateTime	mOldestDate,
-							mNewestDate;
-	private List<StockDataPoint>	mDataPoints;
-	private List<StockSymbolPoint>	mSymbolPoints;
+				mNewestDate;
+	private List<StockDataPoint> mDataPoints;
+	private List<StockSymbolPoint> mSymbolPoints;
 	private String	mSymbol,
-					mName;
+			mName;
 
 	public enum DatabaseNames_Data{
 		data_datetime,

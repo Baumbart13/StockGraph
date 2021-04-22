@@ -10,8 +10,8 @@ import java.time.LocalDateTime;
 import java.util.LinkedList;
 
 public class StockDatabase extends Database implements CanBeTable {
-	public static final String _TABLE_NAME__DATA = "stock_data";
-	public static final String _TABLE_NAME__SYMBOLS = "stock_symbol";
+	public static final String	_TABLE_NAME__DATA	= "stock_data",
+					_TABLE_NAME__SYMBOLS	= "stock_symbol";
 
 	public StockDatabase(){
 		this("", "", "", "");

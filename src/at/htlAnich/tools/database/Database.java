@@ -4,11 +4,11 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 public abstract class Database {
-	protected Connection mConnection = null;
-	protected String mHostname = "";
-	protected String mUser = "";
-	protected String mPassword = "";
-	protected String mDatabase = "";
+	protected Connection mConnection	= null;
+	protected String	mHostname	= "",
+				mUser		= "",
+				mPassword	= "",
+				mDatabase	= "";
 
 	public Database(String hostname, String user, String password, String database){
 		if(hostname.length() < 1 ||

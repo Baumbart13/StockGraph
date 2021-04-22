@@ -18,15 +18,15 @@ import static at.htlAnich.tools.BaumbartLogger.logf;
 
 public class Stocks {
 
-	private static boolean	UseGui				= true,
-							UseRandomSymbols	= false;
+	private static boolean	UseGui			= true,
+				UseRandomSymbols	= false;
 	private static String	DatabasePath		= "database.csv",
-							ApiPath				= "api.csv",
-							SymbolsPath			= "symbols.csv",
-							AutoLoadPath		= "auto";
+				ApiPath			= "api.csv",
+				SymbolsPath		= "symbols.csv",
+				AutoLoadPath		= "auto";
 	private static Queue<String> AutoQueue		= new LinkedList<String>();
-	private static int	WindowWidth				= (int)(Environment.getDesktopWidth_Multiple() * (1.0/2.5)),
-						WindowHeight			= (int)(Environment.getDesktopHeight_Multiple() * (1.0/2.7));
+	private static int	WindowWidth		= (int)(Environment.getDesktopWidth_Multiple() * (1.0/2.5)),
+				WindowHeight		= (int)(Environment.getDesktopHeight_Multiple() * (1.0/2.7));
 
 	/**
 	 * Loads everything needed for the database to work. <code>database.csv</code> must be in the correct folder to
