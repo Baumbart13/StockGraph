@@ -11,6 +11,13 @@ public abstract class Database {
 	protected String mDatabase = "";
 
 	public Database(String hostname, String user, String password, String database){
+		if(hostname.length() < 1 ||
+		user.length() < 1 ||
+		password.length() < 1 ||
+		database.length() < 1){
+			hostname = user = password = database = "FATAL ERROR: Wrong credentials!";
+		}
+
 		this.mHostname = hostname;
 		this.mUser = user;
 		this.mPassword = password;

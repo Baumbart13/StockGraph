@@ -1,7 +1,6 @@
 package at.htlAnich.stockUpdater.api;
 
 import at.htlAnich.stockUpdater.StockResults;
-import jdk.jshell.spi.ExecutionControl;
 import org.apache.commons.io.IOUtils;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
@@ -15,19 +14,13 @@ import java.nio.charset.StandardCharsets;
 
 public class ApiParser {
 	private static final String ApiUrl = "https://www.alphavantage.co/query/?";
-	private String ApiKey = "demo";
+	private String mApiKey = "demo";
 
 	public ApiParser(String apiKey){
-		ApiKey = apiKey;
-	}
-
-	public ApiParser(File loadFromFile) throws IOException{
-		var reader = new BufferedReader(new FileReader(loadFromFile));
-		var line = reader.readLine();
-		while(line != null){
-			line = reader.readLine();
+		if(apiKey.length() < 1){
+			apiKey = "FATAL ERROR: Wrong API-Key!";
 		}
-		ApiKey = line;
+		mApiKey = apiKey;
 	}
 
 	public enum Function{
@@ -76,14 +69,14 @@ public class ApiParser {
 		switch(fun){
 			case LISTING_STATUS:
 				return String.format("%sfunction=%s&apiKey=%s",
-										ApiUrl, fun.name(), ApiKey);
+										ApiUrl, fun.name(), mApiKey);
 			case TIME_SERIES_DAILY:
 			case TIME_SERIES_DAILY_ADJUSTED:
 				return String.format("%sfunction=%s&symbol=%s&outputsize=%s&datatype=%s&apikey=%s",
-										ApiUrl, fun.name(), symbol, outputSize, dataType, ApiKey);
+										ApiUrl, fun.name(), symbol, outputSize, dataType, mApiKey);
 			default:
 				return String.format("%sfunction=%s&symbol=%s&datatype=%s&apikey=%s",
-										ApiUrl, fun.name(), symbol, dataType, ApiKey);
+										ApiUrl, fun.name(), symbol, dataType, mApiKey);
 		}
 	}
 
@@ -106,7 +99,7 @@ public class ApiParser {
 	}
 
 	/**
-	 * Calls Functions of the www.alphavantage.co API and returns the request as a StockResults object. Uses full
+	 * Calls Functions of the <code>www.alphavantage.co</code> API and returns the request as a StockResults object. Uses full
 	 * <code>OutputSize</code>. Uses json <code>DataType</code>.
 	 * @param symbol The symbol of the stock.
 	 * @param fun The API-function that will be called.

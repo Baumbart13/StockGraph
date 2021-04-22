@@ -5,13 +5,13 @@ import org.jetbrains.annotations.NotNull;
 import java.time.LocalDate;
 
 public class StockSymbolPoint {
-	private String	Symbol,
-					Name = "";
-	private StockExchangeType Exchange;
-	private StockAssetType Asset;
-	private LocalDate	IpoDate,
-						DelistingDate;
-	private StockStatus IsActive;
+	private String	mSymbol,
+					mName = "";
+	private StockExchangeType	mExchange;
+	private StockAssetType	mAsset;
+	private LocalDate	mIpoDate,
+						mDelistingDate;
+	private StockStatus	mIsActive;
 
 	@Override
 	protected StockSymbolPoint clone() throws CloneNotSupportedException {
@@ -19,26 +19,26 @@ public class StockSymbolPoint {
 	}
 
 	public StockSymbolPoint(StockSymbolPoint other){
-		this(	other.Symbol.toString(),
-				other.Name.toString(),
-				StockExchangeType.valueOf(other.Exchange),
-				StockAssetType.valueOf(other.Asset.name()),
-				LocalDate.of(other.IpoDate.getYear(), other.IpoDate.getMonth(), other.IpoDate.getDayOfMonth()),
-				((other.DelistingDate==null) ? null : LocalDate.of(other.DelistingDate.getYear(),
-						other.DelistingDate.getMonth(), other.DelistingDate.getDayOfMonth())),
-				StockStatus.valueOf(other.IsActive.name())
+		this(	other.mSymbol.toString(),
+				other.mName.toString(),
+				StockExchangeType.valueOf(other.mExchange),
+				StockAssetType.valueOf(other.mAsset.name()),
+				LocalDate.of(other.mIpoDate.getYear(), other.mIpoDate.getMonth(), other.mIpoDate.getDayOfMonth()),
+				((other.mDelistingDate ==null) ? null : LocalDate.of(other.mDelistingDate.getYear(),
+						other.mDelistingDate.getMonth(), other.mDelistingDate.getDayOfMonth())),
+				StockStatus.valueOf(other.mIsActive.name())
 		);
 	}
 
 	public StockSymbolPoint(@NotNull String symbol, String name, StockExchangeType exchange, StockAssetType asset,
 							@NotNull LocalDate ipoDate, LocalDate delistingDate, StockStatus isActive){
-		Symbol = symbol;
-		Name = (name == null || name.length() < symbol.length()) ? symbol : name;
-		Exchange = exchange;
-		Asset = asset;
-		IpoDate = ipoDate;
-		DelistingDate = delistingDate;
-		IsActive = isActive;
+		mSymbol = symbol;
+		mName = (name == null || name.length() < symbol.length()) ? symbol : name;
+		mExchange = exchange;
+		mAsset = asset;
+		mIpoDate = ipoDate;
+		mDelistingDate = delistingDate;
+		mIsActive = isActive;
 	}
 
 	public static StockSymbolPoint of(String line){

@@ -5,9 +5,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class StockDataPoint {
-	public LocalDateTime DateTime;
-	private Map<StockValueType, Float> Values;
-	private Map<Long, Float> Avgs;
+	public LocalDateTime mDateTime;
+	private Map<StockValueType, Float> mValues;
+	private Map<Long, Float> mAvgs;
 
 	@Override
 	public StockDataPoint clone(){
@@ -15,15 +15,15 @@ public class StockDataPoint {
 	}
 
 	public StockDataPoint(StockDataPoint other){
-		this.DateTime = LocalDateTime.of(other.DateTime.toLocalDate(), other.DateTime.toLocalTime());
-		this.Values = new HashMap<StockValueType, Float>(other.Values);
-		this.Avgs = new HashMap<Long, Float>(other.Avgs);
+		this.mDateTime = LocalDateTime.of(other.mDateTime.toLocalDate(), other.mDateTime.toLocalTime());
+		this.mValues = new HashMap<StockValueType, Float>(other.mValues);
+		this.mAvgs = new HashMap<Long, Float>(other.mAvgs);
 	}
 
 	public StockDataPoint(LocalDateTime dateTime){
-		this.DateTime = LocalDateTime.of(dateTime.toLocalDate(), dateTime.toLocalTime());
-		this.Values = new HashMap<StockValueType, Float>();
-		this.Avgs = new HashMap<Long, Float>();
+		this.mDateTime = LocalDateTime.of(dateTime.toLocalDate(), dateTime.toLocalTime());
+		this.mValues = new HashMap<StockValueType, Float>();
+		this.mAvgs = new HashMap<Long, Float>();
 	}
 
 	/**
@@ -47,9 +47,9 @@ public class StockDataPoint {
 	 */
 	public float getValue(StockValueType type, long daysAvg){
 		if(type != StockValueType.avgValue){
-			return Values.get(type);
+			return mValues.get(type);
 		}
-		return Avgs.get(daysAvg & ~0x8000_0000_0000_0000L);
+		return mAvgs.get(daysAvg & ~0x8000_0000_0000_0000L);
 	}
 
 	/**
@@ -62,10 +62,10 @@ public class StockDataPoint {
 	 */
 	public void setValue(StockValueType type, float value, long daysAvg){
 		if(type != StockValueType.avgValue){
-			Values.put(type, value);
+			mValues.put(type, value);
 			return;
 		}
-		Avgs.put(daysAvg, value);
+		mAvgs.put(daysAvg, value);
 	}
 
 	/**
@@ -80,6 +80,6 @@ public class StockDataPoint {
 	}
 
 	public Long[] getAverages(){
-		return (Long[])Avgs.keySet().toArray();
+		return (Long[]) mAvgs.keySet().toArray();
 	}
 }

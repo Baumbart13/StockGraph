@@ -182,7 +182,7 @@ buildNumber.properties
 ### User defined
 date2020_11_25_stockUpdater/res/api.csv
 date2020_11_25_stockUpdater/res/database.csv
-res/
+res/*
 
 .idea/discord.xml
 .idea/csv-plugin.xml

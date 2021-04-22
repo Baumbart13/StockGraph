@@ -10,8 +10,12 @@ import java.time.LocalDateTime;
 import java.util.LinkedList;
 
 public class StockDatabase extends Database implements CanBeTable {
-	private static final String _TABLE_NAME__DATA = "stock_data";
-	private static final String _TABLE_NAME__SYMBOLS = "stock_symbol";
+	public static final String _TABLE_NAME__DATA = "stock_data";
+	public static final String _TABLE_NAME__SYMBOLS = "stock_symbol";
+
+	public StockDatabase(){
+		this("", "", "", "");
+	}
 
 	public StockDatabase(String hostname, String user, String password, String database){
 		super(hostname, user, password, database);
@@ -37,6 +41,7 @@ public class StockDatabase extends Database implements CanBeTable {
 				"jdbc:mysql://%s/%s?user=%s&password=%s?serverTimezone=UTC",
 				mHostname, mDatabase, mUser, mPassword
 		));
+		return;
 	}
 
 	@Override
@@ -47,16 +52,19 @@ public class StockDatabase extends Database implements CanBeTable {
 
 		mConnection.close();
 		mConnection = null;
+		return;
 	}
 
 	@Override
 	public void createDatabase(String database) throws SQLException {
 		var stmnt = mConnection.createStatement();
 		stmnt.execute("CREATE DATABASE IF NOT EXISTS " + database.trim());
+		return;
 	}
 
 	public void createDatabase() throws SQLException{
 		createDatabase(mDatabase);
+		return;
 	}
 
 	/**
@@ -84,10 +92,12 @@ public class StockDatabase extends Database implements CanBeTable {
 
 	public LocalDateTime getNewestStockDataEntry(String symbol){
 		var sql = String.format("SELECT * FROM %s" +
-										"WHERE stock_symbol = ?" +
-										"ORDER BY stock_datetime ASC" +
+										"WHERE %s = ?" +
+										"ORDER BY %s ASC" +
 										"LIMIT 201;",
-				_TABLE_NAME__DATA
+				_TABLE_NAME__DATA,
+				StockResults.DatabaseNames_Data.data_symbol.toString(),
+				StockResults.DatabaseNames_Data.data_datetime.toString()
 		);
 
 		var out = LocalDate.MIN.atStartOfDay();
@@ -97,7 +107,8 @@ public class StockDatabase extends Database implements CanBeTable {
 			var rs = stmnt.executeQuery();
 
 			rs.first();
-			out = rs.getTimestamp("stock_datetime").toLocalDateTime();
+			var columnLabel = StockResults.DatabaseNames_Data.data_datetime.toString().toLowerCase();
+			out = rs.getTimestamp(columnLabel).toLocalDateTime();
 
 		}catch (SQLException e){
 			e.printStackTrace();

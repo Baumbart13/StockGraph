@@ -17,6 +17,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\src\at\htlAnich\stockUpdater\StockValueType.java">
+          <value>
+            <Attribute>
+              <option name="separator" value="&#9;" />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\src\at\htlAnich\stockUpdater\api\ApiProcessor.java">
           <value>
             <Attribute>

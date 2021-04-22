@@ -4,7 +4,7 @@ public enum ProgramArguments {
 	DEBUG,
 	windowed, w,
 	install,
-	unsinstall,
+	uninstall,
 	autoupdate,
 	inProduction;
 
