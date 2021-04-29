@@ -1,6 +1,7 @@
 package at.htlAnich.stockUpdater;
 
 import at.htlAnich.stockUpdater.api.ApiParser;
+import at.htlAnich.stockUpdater.threading.LoadCredentialsThread;
 import at.htlAnich.tools.BaumbartLogger;
 import at.htlAnich.tools.Environment;
 import jdk.jshell.spi.ExecutionControl;
@@ -8,25 +9,27 @@ import jdk.jshell.spi.ExecutionControl;
 import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
+import java.util.concurrent.CyclicBarrier;
 import java.util.logging.Logger;
 
 import static at.htlAnich.tools.BaumbartLogger.logf;
 
 public class Stocks {
-
+	public static Random	Dice			= new Random();
 	private static boolean	UseGui			= true,
-				UseRandomSymbols	= false;
+				UseRandomSymbols	= false,
+				Flag_Threading		= false;
 	private static String	DatabasePath		= "database.csv",
 				ApiPath			= "api.csv",
 				SymbolsPath		= "symbols.csv",
 				AutoLoadPath		= "auto";
+	public static StockResults Symbols		= null;
+	public static StockDatabase Database		= null;
+	public static ApiParser Parser			= null;
 	private static Queue<String> AutoQueue		= new LinkedList<String>();
-	private static int	WindowWidth		= (int)(Environment.getDesktopWidth_Multiple() * (1.0/2.5)),
-				WindowHeight		= (int)(Environment.getDesktopHeight_Multiple() * (1.0/2.7));
+	private static final int	WindowWidth	= (int)(Environment.getDesktopWidth_Multiple() * (1.0/2.5)),
+					WindowHeight	= (int)(Environment.getDesktopHeight_Multiple() * (1.0/2.7));
 
 	/**
 	 * Loads everything needed for the database to work. <code>database.csv</code> must be in the correct folder to
@@ -181,16 +184,37 @@ public class Stocks {
 
 	public static void main(String[] args) throws ExecutionControl.NotImplementedException {
 		argumentHandling(Arrays.stream(args).toList());
-		var db = loadDb(DatabasePath);
-		var api = loadApi(ApiPath);
-		var symbols = loadSymbols(SymbolsPath, api);
+
+		// We can't load the symbols, as long as the ApiParser has not been loaded completely, due to the fact
+		// the symbols will be requested from the Api if the file >symbols.csv< is not present
+		if(Flag_Threading) {
+			var barrier = new CyclicBarrier(2, () -> logf("Thread has arrived at the barrier.%n"));
+			var loadDb = new LoadCredentialsThread(LoadCredentialsThread.LoadType.Database, DatabasePath, null);
+			var loadApi = new LoadCredentialsThread(LoadCredentialsThread.LoadType.API, ApiPath, null);
+			loadDb.start();
+			loadApi.start();
+
+			// TODO: implement threading on startup
+			try {
+				loadDb.join();
+				loadApi.join();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}else{
+			Database = loadDb(DatabasePath);
+			Parser = loadApi(ApiPath);
+		}
+		Symbols = loadSymbols(SymbolsPath, Parser);
 
 		if(UseGui){
-			StockVisualizer.launch(Integer.toString(WindowWidth), Integer.toString(WindowHeight));
+			var gui = new StockVisualizer(Database, Parser, Symbols);
+			gui.launch(Integer.toString(WindowWidth), Integer.toString(WindowHeight));
 			return;
 		}
 
 		// autoupdate
+
 	}
 
 	public static void argumentHandling(final List<String> args) throws ExecutionControl.NotImplementedException {
