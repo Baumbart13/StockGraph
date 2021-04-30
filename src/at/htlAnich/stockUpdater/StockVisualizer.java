@@ -2,6 +2,7 @@ package at.htlAnich.stockUpdater;
 
 import at.htlAnich.stockUpdater.api.ApiParser;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -127,9 +128,24 @@ public class StockVisualizer extends Application {
 	}
 
 	private void requestStockDataAsync(String symbol){
-		try {
+
+		var loadThread = new Thread(() -> {
+			StockResults results = null;
+			try{
+				results = mApiParser.request(symbol, ApiParser.Function.TIME_SERIES_DAILY_ADJUSTED);
+				updateDatabase(results);
+			}catch(IOException e){
+				errf("There was an error while receiving data from the API.");
+				e.printStackTrace();
+			}
+		});
+
+	}
+
+	public void updateDatabase(StockResults results){
+		try{
 			throw new ExecutionControl.NotImplementedException(String.format(
-				"\"private void %s.requestStockDataAsync(String)\" not implemented yet.",
+				"\"public void at.htlAnich.stockUpdater.%s.updateDatabase(StockResults)\" not implemented yet.",
 				this.getClass()
 			));
 		}catch(ExecutionControl.NotImplementedException e){
