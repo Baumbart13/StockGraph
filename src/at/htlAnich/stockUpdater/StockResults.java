@@ -7,6 +7,10 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * This class is the interface between the API and Database. It supports <code>StockDataPoint</code> and
+ * <code>StockSymbolPoint</code>.
+ */
 public class StockResults implements CanBeTable {
 	private HashMap<StockValueType, Float>	mLowerBounds,
 						mUpperBounds;
@@ -16,6 +20,13 @@ public class StockResults implements CanBeTable {
 	private List<StockSymbolPoint> mSymbolPoints;
 	private String	mSymbol,
 			mName;
+	private Type mTableType;
+
+	public enum Type{
+		NOT_SET,
+		DATA,
+		SYMBOL;
+	}
 
 	public enum DatabaseNames_Data{
 		data_datetime,
@@ -31,9 +42,9 @@ public class StockResults implements CanBeTable {
 
 		public String toString(long avgDays){
 			if(this == data_avg){
-				return this.name()+Long.toString(avgDays);
+				return this.toString()+Long.toString(avgDays);
 			}
-			return this.name();
+			return this.toString();
 		}
 	}
 
@@ -57,6 +68,7 @@ public class StockResults implements CanBeTable {
 	 * @param other Copies the values from <code>other</code> to a new instance.
 	 */
 	public StockResults(StockResults other){
+		this.mTableType = Type.NOT_SET;
 		this.mLowerBounds = new HashMap<StockValueType, Float>(other.mLowerBounds);
 		this.mUpperBounds = new HashMap<StockValueType, Float>(other.mUpperBounds);
 		this.mOldestDate = LocalDateTime.of(other.mOldestDate.toLocalDate(), other.mOldestDate.toLocalTime());
@@ -68,6 +80,7 @@ public class StockResults implements CanBeTable {
 	}
 
 	public StockResults(String symbol, String name){
+		this.mTableType = Type.NOT_SET;
 		this.mSymbol = symbol;
 		this.mName = name;
 		this.mLowerBounds = new HashMap<>();
@@ -92,10 +105,22 @@ public class StockResults implements CanBeTable {
 	}
 
 	public void addSymbolPoint(StockSymbolPoint point){
+		if(mDataPoints.size() == 0 && mSymbolPoints.size() == 0)
+			mTableType = Type.SYMBOL;
+
+		if(mTableType != Type.SYMBOL)
+			return;
+
 		mSymbolPoints.add(point);
 	}
 
 	public void addDataPoint(StockDataPoint point){
+		if(mDataPoints.size() == 0 && mSymbolPoints.size() == 0)
+			mTableType = Type.DATA;
+
+		if(mTableType != Type.DATA)
+			return;
+
 		mDataPoints.add(point);
 
 		if(point.mDateTime.isAfter(mNewestDate)){
@@ -174,6 +199,9 @@ public class StockResults implements CanBeTable {
 	}
 
 	@Override
+	/**
+	 * @return A string, which tells if this object handles the data or the symbols.
+	 */
 	public String getTableName(){
 		if(mDataPoints == null && mSymbolPoints != null){
 			return StockDatabase._TABLE_NAME__SYMBOLS;
@@ -182,5 +210,9 @@ public class StockResults implements CanBeTable {
 			return StockDatabase._TABLE_NAME__DATA;
 		}
 		return "";
+	}
+
+	public Type getTableType(){
+		return mTableType;
 	}
 }
