@@ -11,7 +11,7 @@ public class StockSymbolPoint implements Comparable{
 	private StockAssetType mAsset;
 	private LocalDate	mIpoDate,
 				mDelistingDate;
-	private StockStatus mIsActive;
+	private StockStatus mStockStatus;
 
 	@Override
 	protected StockSymbolPoint clone() {
@@ -26,7 +26,7 @@ public class StockSymbolPoint implements Comparable{
 				LocalDate.of(other.mIpoDate.getYear(), other.mIpoDate.getMonth(), other.mIpoDate.getDayOfMonth()),
 				((other.mDelistingDate ==null) ? null : LocalDate.of(other.mDelistingDate.getYear(),
 						other.mDelistingDate.getMonth(), other.mDelistingDate.getDayOfMonth())),
-				StockStatus.valueOf(other.mIsActive.name())
+				StockStatus.valueOf(other.mStockStatus.name())
 		);
 	}
 
@@ -38,7 +38,7 @@ public class StockSymbolPoint implements Comparable{
 		mAsset = asset;
 		mIpoDate = ipoDate;
 		mDelistingDate = delistingDate;
-		mIsActive = isActive;
+		mStockStatus = isActive;
 	}
 
 	public String getSymbol() {
@@ -65,8 +65,8 @@ public class StockSymbolPoint implements Comparable{
 		return mDelistingDate;
 	}
 
-	public StockStatus getIsActive() {
-		return mIsActive;
+	public StockStatus getStatus() {
+		return mStockStatus;
 	}
 
 	public static StockSymbolPoint of(String line){
