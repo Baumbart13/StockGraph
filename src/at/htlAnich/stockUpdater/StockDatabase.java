@@ -89,7 +89,6 @@ public class StockDatabase extends Database implements CanBeTable {
 					"%s DATETIME NOT NULL," +	// data_datetime
 					"%s VARCHAR(8) NOT NULL," +	// data_symbol
 					"%s FLOAT," +			// data_open
-					"%s FLOAT," +			// data_open
 					"%s FLOAT," +			// data_close
 					"%s FLOAT," +			// data_high
 					"%s FLOAT," +			// data_low
@@ -159,7 +158,7 @@ public class StockDatabase extends Database implements CanBeTable {
 
 		switch(results.getTableType()){
 			case DATA -> {
-				updateAvgValues();
+				updateAvgs(results.getDataPoints());
 				insertOrUpdateStock_DATA(results);
 			}
 			case SYMBOL -> insertOrUpdateStock_SYMBOLS(results);
@@ -179,7 +178,7 @@ public class StockDatabase extends Database implements CanBeTable {
 
 			// 9 parameters for the formatstring
 			var stmntText = new StringBuilder(String.format(
-				"INSERT INTO %s (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s",
+				"INSERT INTO %s (%s, %s, %s, %s, %s, %s, %s, %s",
 				_TABLE_NAME__DATA,
 				StockResults.DatabaseNames_Data.data_datetime.toString(),
 				StockResults.DatabaseNames_Data.data_symbol.toString(),
