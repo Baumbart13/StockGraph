@@ -22,6 +22,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Collections;
 import java.util.LinkedList;
 
@@ -129,30 +130,31 @@ public class StockVisualizer extends Application {
 
 	private void requestStockDataAsync(String symbol){
 
+		final var database = new StockDatabase(this.mDatabase);
 		var loadThread = new Thread(() -> {
 			StockResults results = null;
 			try{
 				results = mApiParser.request(symbol, ApiParser.Function.TIME_SERIES_DAILY_ADJUSTED);
-				updateDatabase(results);
+				updateDatabase(results, database);
 			}catch(IOException e){
 				errf("There was an error while receiving data from the API.");
 				e.printStackTrace();
 			}
 		});
+		loadThread.start();
 
 	}
 
 	public void updateDatabase(StockResults results){
+		updateDatabase(results, this.mDatabase);
+	}
+
+	public void updateDatabase(StockResults results, StockDatabase stockDb){
 		try{
-			throw new ExecutionControl.NotImplementedException(String.format(
-				"\"public void at.htlAnich.stockUpdater.%s.updateDatabase(StockResults)\" not implemented yet.",
-				this.getClass()
-			));
-		}catch(ExecutionControl.NotImplementedException e){
+			stockDb.connect();
+		}catch(SQLException e){
 			e.printStackTrace();
 		}
-		System.exit(-1);
-		return;
 	}
 
 	public String takeScreenshot(){
