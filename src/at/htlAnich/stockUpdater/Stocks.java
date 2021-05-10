@@ -46,9 +46,10 @@ public class Stocks {
 	public static StockDatabase loadDb(String loadFromFile) {
 		BufferedReader reader = null;
 		String[] credentials = null;
+		var file = new File(loadFromFile);
 
 		try {
-			reader = new BufferedReader(new FileReader(loadFromFile));
+			reader = new BufferedReader(new FileReader(file));
 
 			var line = "";
 			while ((line = reader.readLine()) != null) {
@@ -57,7 +58,7 @@ public class Stocks {
 
 			return new StockDatabase(credentials[0], credentials[1], credentials[2], credentials[3]);
 		}catch(FileNotFoundException e){
-			Stocks.crucialFileMissing(loadFromFile);
+			Stocks.crucialFileMissing(file.getAbsolutePath());
 		}catch (IOException e){
 			e.printStackTrace();
 		}finally {
@@ -88,9 +89,10 @@ public class Stocks {
 	public static ApiParser loadApi(String loadFromFile){
 		BufferedReader reader = null;
 		var apiKey = "";
+		var file = new File(loadFromFile);
 
 		try{
-			reader = new BufferedReader(new FileReader(loadFromFile));
+			reader = new BufferedReader(new FileReader(file));
 
 			// check 1st line
 			var line = reader.readLine();
@@ -101,7 +103,7 @@ public class Stocks {
 			}
 
 		}catch (FileNotFoundException e){
-			Stocks.crucialFileMissing(loadFromFile);
+			Stocks.crucialFileMissing(file.getAbsolutePath());
 		}catch(IOException e){
 			e.printStackTrace();
 		}finally{
@@ -131,9 +133,10 @@ public class Stocks {
 	public static StockResults loadSymbols(String loadFromFile, ApiParser parser){
 		var symbols = new StockResults("");
 		BufferedReader reader = null;
+		var file = new File(loadFromFile);
 
 		try{
-			reader = new BufferedReader(new FileReader(loadFromFile));
+			reader = new BufferedReader(new FileReader(file));
 
 			var line = reader.readLine().trim();
 			if(!line.equalsIgnoreCase("symbol,name,exchange,assetType,ipoDate,delistingDate,status")){
