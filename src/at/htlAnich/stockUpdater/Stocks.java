@@ -2,24 +2,22 @@ package at.htlAnich.stockUpdater;
 
 import at.htlAnich.stockUpdater.api.ApiParser;
 import at.htlAnich.stockUpdater.threading.LoadCredentialsThread;
-import at.htlAnich.tools.BaumbartLogger;
 import at.htlAnich.tools.Environment;
-import jdk.jshell.spi.ExecutionControl;
 
+import jdk.jshell.spi.ExecutionControl;
 import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.CyclicBarrier;
-import java.util.logging.Logger;
 
 import static at.htlAnich.tools.BaumbartLogger.logf;
 
 public class Stocks {
 	public static Random	Dice			= new Random();
-	private static boolean	UseGui			= true,
-				UseRandomSymbols	= false,
-				Flag_Threading		= false;
+	private static boolean	UseGui			= true;
+	private static boolean UseRandomSymbols	= false;
+	private static final boolean Flag_Threading		= false;
 	private static String	DatabasePath		= "database.csv",
 				ApiPath			= "api.csv",
 				SymbolsPath		= "symbols.csv",
@@ -27,7 +25,7 @@ public class Stocks {
 	public static StockResults Symbols		= null;
 	public static StockDatabase Database		= null;
 	public static ApiParser Parser			= null;
-	private static Queue<String> AutoQueue		= new LinkedList<String>();
+	private static final Queue<String> AutoQueue		= new LinkedList<String>();
 	private static final int	WindowWidth	= (int)(Environment.getDesktopWidth_Multiple() * (1.0/2.5)),
 					WindowHeight	= (int)(Environment.getDesktopHeight_Multiple() * (1.0/2.7));
 
@@ -191,6 +189,7 @@ public class Stocks {
 		// We can't load the symbols, as long as the ApiParser has not been loaded completely, due to the fact
 		// the symbols will be requested from the Api if the file >symbols.csv< is not present
 		if(Flag_Threading) {
+			logf("Using Threads");
 			var barrier = new CyclicBarrier(2, () -> logf("Thread has arrived at the barrier.%n"));
 			var loadDb = new LoadCredentialsThread(LoadCredentialsThread.LoadType.Database, DatabasePath, null);
 			var loadApi = new LoadCredentialsThread(LoadCredentialsThread.LoadType.API, ApiPath, null);
@@ -211,13 +210,16 @@ public class Stocks {
 		Symbols = loadSymbols(SymbolsPath, Parser);
 
 		if(UseGui){
+			logf("Starting GUI%n");
+			// TODO: Get the GUI at a later point working
 			var gui = new StockVisualizer(Database, Parser, Symbols);
 			gui.launch(Integer.toString(WindowWidth), Integer.toString(WindowHeight));
-			return;
+		}else{ // autoupdate
+			logf("Starting autoupdate%n");
+			var autoUpdater = new StockAutoUpdater(UseRandomSymbols);
 		}
 
-		// autoupdate
-
+		logf("Exiting main-method%n");
 	}
 
 	public static void argumentHandling(final List<String> args) throws ExecutionControl.NotImplementedException {
@@ -232,13 +234,13 @@ public class Stocks {
 
 			switch(ProgramArguments.valueOf(args.get(i).substring(2))){
 				case inProduction:
-					ApiPath = String.format("res%1$s%s",
+					ApiPath = String.format("res%s%s",
 							File.separator, ApiPath);
-					DatabasePath = String.format("res%1$s%s",
+					DatabasePath = String.format("res%s%s",
 							File.separator, DatabasePath);
-					SymbolsPath = String.format("res%1$s%s",
+					SymbolsPath = String.format("res%s%s",
 							File.separator, SymbolsPath);
-					AutoLoadPath = String.format("res%1$s%s",
+					AutoLoadPath = String.format("res%s%s",
 							File.separator, AutoLoadPath);
 					break;
 				case install:
@@ -250,7 +252,7 @@ public class Stocks {
 					if(args.size() <= i+1)
 						break;
 					// load a few random ones or from auto
-					UseRandomSymbols = args.get(i+1).equals("rand");
+					UseRandomSymbols = args.get(i+1).equalsIgnoreCase("rand");
 					break;
 				case DEBUG:
 					logf("DEBUG mode has been chosen.");
