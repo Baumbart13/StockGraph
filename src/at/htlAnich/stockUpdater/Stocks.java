@@ -186,7 +186,7 @@ public class Stocks {
 	}
 
 	public static void main(String[] args) throws ExecutionControl.NotImplementedException {
-		argumentHandling(Arrays.stream(args).toList());
+		argumentHandling(Arrays.asList(args));
 
 		// We can't load the symbols, as long as the ApiParser has not been loaded completely, due to the fact
 		// the symbols will be requested from the Api if the file >symbols.csv< is not present
