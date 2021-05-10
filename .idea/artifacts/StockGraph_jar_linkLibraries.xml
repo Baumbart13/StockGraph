@@ -8,13 +8,6 @@
       <element id="archive" name="StockGraph.jar">
         <element id="module-output" name="StockGraph" />
       </element>
-      <element id="library" level="project" name="org.openjfx:javafx-base:16" />
-      <element id="library" level="project" name="commons-io:commons-io:2.8.0" />
-      <element id="library" level="project" name="mysql:mysql-connector-java:8.0.23" />
-      <element id="library" level="project" name="org.jetbrains:annotations:20.1.0" />
-      <element id="library" level="project" name="org.openjfx:javafx-controls:16" />
-      <element id="library" level="project" name="org.json:json:20210307" />
-      <element id="library" level="project" name="org.openjfx:javafx-swing:16" />
     </root>
   </artifact>
 </component>

@@ -6,13 +6,13 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
-    <orderEntry type="library" exported="" name="org.jetbrains:annotations:20.1.0" level="project" />
-    <orderEntry type="library" exported="" name="org.json:json:20210307" level="project" />
-    <orderEntry type="library" exported="" name="org.openjfx:javafx-base:16" level="project" />
-    <orderEntry type="library" exported="" name="org.openjfx:javafx-controls:16" level="project" />
-    <orderEntry type="library" exported="" name="mysql:mysql-connector-java:8.0.23" level="project" />
-    <orderEntry type="library" exported="" name="org.openjfx:javafx-swing:16" level="project" />
-    <orderEntry type="library" exported="" name="commons-io:commons-io:2.8.0" level="project" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="commons-io:commons-io:2.8.0" level="project" />
+    <orderEntry type="library" name="org.jetbrains:annotations:20.1.0" level="project" />
+    <orderEntry type="library" name="mysql:mysql-connector-java:8.0.23" level="project" />
+    <orderEntry type="library" name="org.openjfx:javafx-swing:16" level="project" />
+    <orderEntry type="library" name="org.openjfx:javafx-base:16" level="project" />
+    <orderEntry type="library" name="org.openjfx:javafx-controls:16" level="project" />
+    <orderEntry type="library" name="org.json:json:20210307" level="project" />
   </component>
 </module>
