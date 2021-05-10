@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.TimeUnit;
 
 import static at.htlAnich.tools.BaumbartLogger.logf;
 
@@ -216,7 +217,26 @@ public class Stocks {
 			gui.launch(Integer.toString(WindowWidth), Integer.toString(WindowHeight));
 		}else{ // autoupdate
 			logf("Starting autoupdate%n");
-			var autoUpdater = new StockAutoUpdater(UseRandomSymbols);
+			var autoUpdater = new StockAutoUpdater(UseRandomSymbols, Database, Parser);
+
+			if(!UseRandomSymbols){
+				// TODO: implement random autoupdater
+				throw new ExecutionControl.NotImplementedException("Random requesting of symbols not implemented yet");
+			}else{
+				autoUpdater.initQueue();
+			}
+
+			StockResults results = null;
+			while((results = autoUpdater.next()) != null){
+				autoUpdater.updateDatabase(results);
+
+				// wait a moment to not overshoot the maximum requests of the API
+				try {
+					TimeUnit.SECONDS.sleep(10);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 
 		logf("Exiting main-method%n");
