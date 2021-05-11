@@ -189,7 +189,7 @@ public class Stocks {
 		return symbols;
 	}
 
-	public static void myMain(StockVisualizer gui, String[] args) throws ExecutionControl.NotImplementedException {
+	public static void main(StockVisualizer gui, String[] args) throws ExecutionControl.NotImplementedException {
 		argumentHandling(Arrays.asList(args));
 
 		// We can't load the symbols, as long as the ApiParser has not been loaded completely, due to the fact
@@ -255,7 +255,7 @@ public class Stocks {
 
 
 		for(int i = 0; i < args.size(); ++i){
-			if(!args.get(i).startsWith("--"))
+			if(!args.get(i).startsWith(ProgramArguments.PREFIX))
 				continue;
 
 			switch(ProgramArguments.valueOf(args.get(i).substring(2))){
