@@ -8,8 +8,10 @@ public enum ProgramArguments {
 	autoupdate,
 	inProduction;
 
+	public static final String PREFIX = "--";
+
 	@Override
 	public String toString() {
-		return "--".concat(this.name());
+		return PREFIX.concat(this.name());
 	}
 }
