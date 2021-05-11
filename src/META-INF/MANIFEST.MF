@@ -1,2 +1,10 @@
 Manifest-Version: 1.0
+Main-Class: at.htlAnich.backTestingSuite.BackTesting
+Class-Path: json-20210307.jar mysql-connector-java-8.0.23.jar protobuf-j
+ ava-3.11.4.jar javafx-swing-16.jar javafx-swing-16-win.jar javafx-graph
+ ics-16.jar javafx-graphics-16-win.jar javafx-base-16.jar javafx-base-16
+ -win.jar javafx-controls-16.jar javafx-controls-16-win.jar javafx-graph
+ ics-16.jar javafx-graphics-16-win.jar javafx-base-16.jar javafx-base-16
+ -win.jar commons-io-2.8.0.jar javafx-base-16.jar javafx-base-16-win.jar
+  annotations-20.1.0.jar
 
