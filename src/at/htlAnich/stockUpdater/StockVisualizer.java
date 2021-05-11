@@ -4,7 +4,6 @@ import at.htlAnich.stockUpdater.api.ApiParser;
 
 import at.htlAnich.stockUpdater.threading.LoadCredentialsThread;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -25,7 +24,6 @@ import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.TimeUnit;
 
@@ -67,7 +65,7 @@ public class StockVisualizer extends Application{
 		this.init(Integer.toString(Stocks.WindowWidth), Integer.toString(Stocks.WindowHeight));
 		try {
 			logf("Executing the original main%n");
-			Stocks.myMain(this, getParameters().getRaw().toArray(new String[0]));
+			Stocks.main(this, getParameters().getRaw().toArray(new String[0]));
 		} catch (ExecutionControl.NotImplementedException e) {
 			e.printStackTrace();
 		}
