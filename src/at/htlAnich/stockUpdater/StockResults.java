@@ -1,6 +1,7 @@
 package at.htlAnich.stockUpdater;
 
 import at.htlAnich.tools.database.CanBeTable;
+import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -68,6 +69,7 @@ public class StockResults implements CanBeTable {
 	 * @param other Copies the values from <code>other</code> to a new instance.
 	 */
 	public StockResults(StockResults other){
+		if(other == null) return;
 		this.mTableType = Type.NOT_SET;
 		this.mLowerBounds = new HashMap<StockValueType, Float>(other.mLowerBounds);
 		this.mUpperBounds = new HashMap<StockValueType, Float>(other.mUpperBounds);

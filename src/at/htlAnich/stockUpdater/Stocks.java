@@ -4,6 +4,12 @@ import at.htlAnich.stockUpdater.api.ApiParser;
 import at.htlAnich.stockUpdater.threading.LoadCredentialsThread;
 import at.htlAnich.tools.Environment;
 
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
 import jdk.jshell.spi.ExecutionControl;
 import java.io.*;
 import java.time.LocalDate;
@@ -16,18 +22,17 @@ import static at.htlAnich.tools.BaumbartLogger.logf;
 
 public class Stocks {
 	public static Random	Dice			= new Random();
-	private static boolean	UseGui			= true;
-	private static boolean UseRandomSymbols	= false;
-	private static final boolean Flag_Threading		= false;
-	private static String	DatabasePath		= "database.csv",
+	public static boolean	UseGui			= true;
+	public static boolean	UseRandomSymbols	= false;
+	public static final boolean Flag_Threading	= false;
+	public static String	DatabasePath		= "database.csv",
 				ApiPath			= "api.csv",
 				SymbolsPath		= "symbols.csv",
 				AutoLoadPath		= "auto";
 	public static StockResults Symbols		= null;
 	public static StockDatabase Database		= null;
 	public static ApiParser Parser			= null;
-	private static final Queue<String> AutoQueue		= new LinkedList<String>();
-	private static final int	WindowWidth	= (int)(Environment.getDesktopWidth_Multiple() * (1.0/2.5)),
+	public static final int		WindowWidth	= (int)(Environment.getDesktopWidth_Multiple() * (1.0/2.5)),
 					WindowHeight	= (int)(Environment.getDesktopHeight_Multiple() * (1.0/2.7));
 
 	/**
@@ -184,7 +189,7 @@ public class Stocks {
 		return symbols;
 	}
 
-	public static void main(String[] args) throws ExecutionControl.NotImplementedException {
+	public static void myMain(StockVisualizer gui, String[] args) throws ExecutionControl.NotImplementedException {
 		argumentHandling(Arrays.asList(args));
 
 		// We can't load the symbols, as long as the ApiParser has not been loaded completely, due to the fact
@@ -210,11 +215,11 @@ public class Stocks {
 		}
 		Symbols = loadSymbols(SymbolsPath, Parser);
 
+		//gui.setOnlyScreenshots(true);
 		if(UseGui){
 			logf("Starting GUI%n");
 			// TODO: Get the GUI at a later point working
-			var gui = new StockVisualizer(Database, Parser, Symbols);
-			gui.launch(Integer.toString(WindowWidth), Integer.toString(WindowHeight));
+
 		}else{ // autoupdate
 			logf("Starting autoupdate%n");
 			var autoUpdater = new StockAutoUpdater(UseRandomSymbols, Database, Parser);
@@ -229,6 +234,7 @@ public class Stocks {
 			StockResults results = null;
 			while((results = autoUpdater.next()) != null){
 				autoUpdater.updateDatabase(results);
+
 
 				// wait a moment to not overshoot the maximum requests of the API
 				try {
@@ -285,5 +291,23 @@ public class Stocks {
 	public static void crucialFileMissing(String nameOfFile){
 		System.err.printf("\"%s\" is missing, exiting program.", nameOfFile);
 		System.exit(-1);
+	}
+
+	public static void test(){
+		// create sample content
+		Rectangle rect = new Rectangle(100, 100, 200, 300);
+		Pane root = new Pane(rect);
+		root.setPrefSize(500, 500);
+
+		Parent content = root;
+
+// create scene containing the content
+		Scene scene = new Scene(content);
+
+		Stage window = new Stage();
+		window.setScene(scene);
+
+// make window visible
+		window.show();
 	}
 }
