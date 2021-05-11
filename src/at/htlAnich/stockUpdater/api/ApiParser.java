@@ -16,6 +16,10 @@ public class ApiParser {
 	private static final String ApiUrl = "https://www.alphavantage.co/query/?";
 	private String mApiKey = "demo";
 
+	public ApiParser(ApiParser other){
+		this.mApiKey = other.mApiKey.toString();
+	}
+
 	public ApiParser(String apiKey){
 		if(apiKey.length() < 1){
 			apiKey = "FATAL ERROR: Wrong API-Key!";
