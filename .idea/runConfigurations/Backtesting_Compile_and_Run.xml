@@ -1,0 +1,11 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Backtesting_Compile and Run" type="Application" factoryName="Application" folderName="Backtesting">
+    <option name="MAIN_CLASS_NAME" value="at.htlAnich.backTestingSuite.BackTesting" />
+    <module name="StockGraph" />
+    <option name="PROGRAM_PARAMETERS" value="--inProduction" />
+    <option name="VM_PARAMETERS" value="--module-path &quot;C:\Program Files (x86)\Java\javafx-sdk-16\lib&quot; --add-modules=javafx.controls,javafx.fxml,javafx.base" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

@@ -1,0 +1,11 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Updater_Compile and Run autoupdate" type="Application" factoryName="Application" folderName="Updater">
+    <option name="MAIN_CLASS_NAME" value="at.htlAnich.stockUpdater.StockVisualizer" />
+    <module name="StockGraph" />
+    <option name="PROGRAM_PARAMETERS" value="--inProduction --autoupdate" />
+    <option name="VM_PARAMETERS" value="--module-path &quot;C:\Program Files (x86)\Java\javafx-sdk-16\lib&quot; --add-modules=javafx.controls,javafx.fxml,javafx.base" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
