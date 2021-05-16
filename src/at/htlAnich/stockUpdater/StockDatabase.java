@@ -51,10 +51,8 @@ public class StockDatabase extends Database implements CanBeTable {
 			return;
 		}
 
-		mConnection = DriverManager.getConnection(String.format(
-				"jdbc:mysql://%s/%s?user=%s&password=%s?serverTimezone=UTC",
-				mHostname, mDatabase, mUser, mPassword
-		));
+		mConnection = DriverManager.getConnection(Database.createConnectionString(
+				mHostname, mDatabase, mUser, mPassword));
 		return;
 	}
 
