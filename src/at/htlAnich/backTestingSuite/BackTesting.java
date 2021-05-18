@@ -32,5 +32,8 @@ public class BackTesting {
 	public static void main(String[] args) {
 		argumentHandling(Arrays.asList(args));
 		System.out.println("Hello Backtesting suite");
+
+		var trader = new Trader();
+
 	}
 }
