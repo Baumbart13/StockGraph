@@ -48,11 +48,6 @@ public class StockDatabase extends MySQL implements CanBeTable {
 		return;
 	}
 
-	public void createDatabase() throws SQLException{
-		createDatabase(mDatabase);
-		return;
-	}
-
 	public void createTable(String tableName) throws SQLException{
 		PreparedStatement stmnt;
 		if(tableName.equals(_TABLE_NAME__DATA)){

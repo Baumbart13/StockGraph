@@ -28,6 +28,10 @@ public abstract class Database {
 	public abstract void disconnect() throws SQLException;
 	public abstract void createDatabase(String database) throws SQLException;
 
+	public void createDatabase() throws SQLException{
+		this.createDatabase(mDatabase);
+	}
+
 	@Override
 	public String toString(){
 		return String.format("Hostname:%s;User:%s;Password:%s;Database:%s",
