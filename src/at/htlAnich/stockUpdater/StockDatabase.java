@@ -2,6 +2,7 @@ package at.htlAnich.stockUpdater;
 
 import at.htlAnich.tools.database.CanBeTable;
 import at.htlAnich.tools.database.Database;
+import at.htlAnich.tools.database.MySQL;
 import jdk.jshell.spi.ExecutionControl;
 
 import java.sql.Date;
@@ -19,7 +20,7 @@ import static at.htlAnich.tools.BaumbartLogger.errf;
 /**
  * @author Baumbart13
  */
-public class StockDatabase extends Database implements CanBeTable {
+public class StockDatabase extends MySQL implements CanBeTable {
 	public static final String	_TABLE_NAME__DATA	= "stock_data",
 					_TABLE_NAME__SYMBOLS	= "stock_symbol";
 
@@ -37,45 +38,13 @@ public class StockDatabase extends Database implements CanBeTable {
 
 	@Override
 	public Database clone() {
-		return new StockDatabase(mHostname, mUser, mPassword, mDatabase);
-	}
-
-	@Override
-	public void connect() throws SQLException{
-
-		if(mConnection != null){
-			if(!mConnection.isClosed()){
-				System.out.println("Connection already opened.");
-				return;
-			}
-			return;
-		}
-
-		mConnection = DriverManager.getConnection(Database.createConnectionString(
-				mHostname, mDatabase, mUser, mPassword));
-		return;
-	}
-
-	@Override
-	public void disconnect() throws SQLException {
-		if(mConnection == null || mConnection.isClosed()){
-			return;
-		}
-
-		mConnection.close();
-		mConnection = null;
-		return;
+		return new StockDatabase(this);
 	}
 
 	@Override
 	public void createDatabase(String database) throws SQLException {
 		var stmnt = mConnection.createStatement();
 		stmnt.execute("CREATE DATABASE IF NOT EXISTS " + database.trim());
-		return;
-	}
-
-	public void createDatabase() throws SQLException{
-		createDatabase(mDatabase);
 		return;
 	}
 
