@@ -1,5 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Backtesting_Compile and Run" type="Application" factoryName="Application" folderName="Backtesting">
+    <option name="ALTERNATIVE_JRE_PATH" value="15" />
+    <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
     <option name="MAIN_CLASS_NAME" value="at.htlAnich.backTestingSuite.BackTesting" />
     <module name="StockGraph" />
     <option name="PROGRAM_PARAMETERS" value="--inProduction" />

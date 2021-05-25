@@ -1,5 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Updater_Compile and Run autoupdate" type="Application" factoryName="Application" folderName="Updater">
+    <option name="ALTERNATIVE_JRE_PATH" value="15" />
+    <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
     <option name="MAIN_CLASS_NAME" value="at.htlAnich.stockUpdater.StockVisualizer" />
     <module name="StockGraph" />
     <option name="PROGRAM_PARAMETERS" value="--inProduction --autoupdate" />
