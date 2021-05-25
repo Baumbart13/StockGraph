@@ -5,7 +5,7 @@
     <option name="MAIN_CLASS_NAME" value="at.htlAnich.stockUpdater.StockVisualizer" />
     <module name="StockGraph" />
     <option name="PROGRAM_PARAMETERS" value="--inProduction --autoupdate" />
-    <option name="VM_PARAMETERS" value="--module-path &quot;C:\Program Files (x86)\Java\javafx-sdk-16\lib&quot; --add-modules=javafx.controls,javafx.fxml,javafx.base" />
+    <option name="VM_PARAMETERS" value="--module-path &quot;C:\Program Files\JavaFX\javafx-sdk-15.0.1\lib&quot; --add-modules=javafx.controls,javafx.fxml,javafx.base" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>
