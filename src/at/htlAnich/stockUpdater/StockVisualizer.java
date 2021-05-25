@@ -234,7 +234,7 @@ public class StockVisualizer extends Application{
 				e.printStackTrace();
 			}
 		}else{
-			logf("Using no Threads%n");
+			logf("Not using Threads%n");
 			Stocks.Database = Stocks.loadDb(Stocks.DatabasePath);
 			Stocks.Parser = Stocks.loadApi(Stocks.ApiPath);
 		}
@@ -252,7 +252,7 @@ public class StockVisualizer extends Application{
 			logf("Starting autoupdate%n");
 			var autoUpdater = new StockAutoUpdater(Stocks.UseRandomSymbols, Stocks.Database, Stocks.Parser);
 
-			if(!Stocks.UseRandomSymbols){
+			if(Stocks.UseRandomSymbols){
 				// TODO: implement random autoupdater
 				throw new ExecutionControl.NotImplementedException("Random requesting of symbols not implemented yet");
 			}else{
