@@ -78,14 +78,23 @@ public class ApiProcessor {
 		for(var line : choppedCsv){
 			var params = line.split(",");
 
+			if(params[2].equalsIgnoreCase("exchange")){
+				continue;
+			}
+			params[2] = params[2].replace(' ', '_');
+			params[3] = params[3].replace(' ', '_');
+			params[6] = params[6].replace(' ', '_');
+
+			var symbol = params[0];
+			var name = (params[1].equalsIgnoreCase("null")) ? null : params[1];
+			var exchange = (params[2].equalsIgnoreCase("null")) ? null : StockExchangeType.valueOf(params[2]);
+			var asset = (params[3].equalsIgnoreCase("null")) ? null : StockAssetType.valueOf(params[3]);
+			var ipoDate = LocalDate.parse(params[4], DateTimeFormatter.ISO_DATE);
+			var delistingDate = (params[5].equalsIgnoreCase("null")) ? null : LocalDate.parse(params[5], DateTimeFormatter.ISO_DATE);
+			var stockStatus = (params[6].equalsIgnoreCase("null")) ? null : StockStatus.valueOf(params[6]);
+
 			results.addSymbolPoint(new StockSymbolPoint(
-					params[0],
-					params[1],
-					StockExchangeType.valueOf(params[2]),
-					StockAssetType.valueOf(params[3]),
-					LocalDate.parse(params[4], DateTimeFormatter.ISO_DATE),
-					LocalDate.parse(params[5], DateTimeFormatter.ISO_DATE),
-					StockStatus.valueOf(params[6])
+					symbol,name,exchange,asset,ipoDate,delistingDate,stockStatus
 			));
 		}
 
