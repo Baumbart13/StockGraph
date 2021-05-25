@@ -5,15 +5,12 @@ import org.apache.commons.io.IOUtils;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
 public class ApiParser {
-	private static final String ApiUrl = "https://www.alphavantage.co/query/?";
+	private static final String ApiUrl = "https://www.alphavantage.co/query?";
 	private String mApiKey = "demo";
 
 	public ApiParser(ApiParser other){
@@ -72,7 +69,7 @@ public class ApiParser {
 	private String makeUrl(Function fun, String symbol, Outputsize outputSize, DataType dataType){
 		switch(fun){
 			case LISTING_STATUS:
-				return String.format("%sfunction=%s&apiKey=%s",
+				return String.format("%sfunction=%s&apikey=%s",
 										ApiUrl, fun.name(), mApiKey);
 			case TIME_SERIES_DAILY:
 			case TIME_SERIES_DAILY_ADJUSTED:
