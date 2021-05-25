@@ -67,7 +67,8 @@ public class StockAutoUpdater {
 		BufferedReader reader = null;
 		File file;
 		if(Stocks.isInProduction()){
-			file = new File("res\\".concat(QueuePath));
+			file = new File(String.format("res%s%s",
+					File.separator, QueuePath));
 		}else{
 			file = new File(QueuePath);
 		}
