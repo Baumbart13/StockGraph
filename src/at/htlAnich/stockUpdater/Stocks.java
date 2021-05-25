@@ -35,6 +35,9 @@ public class Stocks {
 	public static ApiParser Parser			= null;
 	public static final int		WindowWidth	= (int)(Environment.getDesktopWidth_Multiple() * (1.0/2.5)),
 					WindowHeight	= (int)(Environment.getDesktopHeight_Multiple() * (1.0/2.7));
+	private static boolean inProduction = false;
+
+	public static boolean isInProduction(){return inProduction;}
 
 	/**
 	 * Loads everything needed for the database to work. <code>database.csv</code> must be in the correct folder to
@@ -261,6 +264,7 @@ public class Stocks {
 
 			switch(ProgramArguments.valueOf(args.get(i).substring(2))){
 				case inProduction:
+					Stocks.inProduction = true;
 					ApiPath = String.format("res%s%s",
 							File.separator, ApiPath);
 					DatabasePath = String.format("res%s%s",

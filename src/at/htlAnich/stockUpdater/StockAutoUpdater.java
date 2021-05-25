@@ -65,7 +65,12 @@ public class StockAutoUpdater {
 		}
 
 		BufferedReader reader = null;
-		var file = new File(QueuePath);
+		File file;
+		if(Stocks.isInProduction()){
+			file = new File("res\\".concat(QueuePath));
+		}else{
+			file = new File(QueuePath);
+		}
 
 		try{
 			reader = new BufferedReader(new FileReader(file));
