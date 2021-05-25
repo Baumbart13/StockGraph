@@ -18,6 +18,7 @@ import java.util.*;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.TimeUnit;
 
+import static at.htlAnich.tools.BaumbartLogger.errf;
 import static at.htlAnich.tools.BaumbartLogger.logf;
 
 public class Stocks {
@@ -60,7 +61,7 @@ public class Stocks {
 				credentials = line.split(",");
 			}
 
-			return new StockDatabase(credentials[0], credentials[1], credentials[2], credentials[3]);
+			return new StockDatabase(credentials[0].trim(), credentials[1].trim(), credentials[2].trim(), credentials[3].trim());
 		}catch(FileNotFoundException e){
 			Stocks.crucialFileMissing(file.getAbsolutePath());
 		}catch (IOException e){
@@ -69,7 +70,7 @@ public class Stocks {
 			try {
 				reader.close();
 			} catch (IOException e) {
-				System.err.printf("Couldn't close file\t\"%s\"%nNot that relevant, because of only read-access.",
+				errf("Couldn't close file\t\"%s\"%nNot that relevant, because of only read-access.",
 						loadFromFile);
 				e.printStackTrace();
 			}
@@ -99,11 +100,11 @@ public class Stocks {
 			reader = new BufferedReader(new FileReader(file));
 
 			// check 1st line
-			var line = reader.readLine();
+			var line = reader.readLine().trim();
 			if(!line.equals("apiKey"))
 				return new ApiParser("");
 			while((line = reader.readLine()) != null){
-				apiKey = line;
+				apiKey = line.trim();
 			}
 
 		}catch (FileNotFoundException e){
@@ -114,7 +115,7 @@ public class Stocks {
 			try{
 				reader.close();
 			}catch(IOException e){
-				System.err.printf("Couldn't close file\t\"%s\"%nNot that relevant, because of only read-access.",
+				errf("Couldn't close file\t\"%s\"%nNot that relevant, because of only read-access.",
 						loadFromFile);
 				e.printStackTrace();
 			}
@@ -150,18 +151,18 @@ public class Stocks {
 			while((line = reader.readLine()) != null){
 				var splittedLine = line.trim().split(",");
 				symbols.addSymbolPoint(new StockSymbolPoint(
-						splittedLine[0],
-						splittedLine[1],
-						StockExchangeType.valueOf(splittedLine[2]),
-						StockAssetType.valueOf(splittedLine[3]),
-						LocalDate.parse(splittedLine[4], DateTimeFormatter.ISO_DATE_TIME),
-						LocalDate.parse(splittedLine[5], DateTimeFormatter.ISO_DATE_TIME),
-						StockStatus.valueOf(splittedLine[6])
+						splittedLine[0].trim(),
+						splittedLine[1].trim(),
+						StockExchangeType.valueOf(splittedLine[2].trim()),
+						StockAssetType.valueOf(splittedLine[3].trim()),
+						LocalDate.parse(splittedLine[4].trim(), DateTimeFormatter.ISO_DATE_TIME),
+						LocalDate.parse(splittedLine[5].trim(), DateTimeFormatter.ISO_DATE_TIME),
+						StockStatus.valueOf(splittedLine[6].trim())
 				));
 			}
 
 		} catch (FileNotFoundException e) {
-			System.err.printf("\"%s\" is missing, requesting it from the API.",
+			errf("\"%s\" is missing, requesting it from the API.%n",
 					loadFromFile);
 
 			try {
@@ -179,9 +180,9 @@ public class Stocks {
 			e.printStackTrace();
 		}finally{
 			try {
-				reader.close();
+				if(reader != null)reader.close();
 			} catch (IOException e) {
-				System.err.printf("Couldn't close file\t\"%s\"%nNot that relevant, because of only Read-Access.",
+				errf("Couldn't close file\t\"%s\"%nNot that relevant, because of only Read-Access.",
 						loadFromFile);
 				e.printStackTrace();
 			}
@@ -289,7 +290,7 @@ public class Stocks {
 	}
 
 	public static void crucialFileMissing(String nameOfFile){
-		System.err.printf("\"%s\" is missing, exiting program.", nameOfFile);
+		errf("\"%s\" is missing, exiting program.", nameOfFile);
 		System.exit(-1);
 	}
 
