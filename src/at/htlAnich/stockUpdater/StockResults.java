@@ -1,9 +1,12 @@
 package at.htlAnich.stockUpdater;
 
+import at.htlAnich.tools.dataTypes.CanSaveCSV;
 import at.htlAnich.tools.database.CanBeTable;
+import jdk.jshell.spi.ExecutionControl;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -12,7 +15,7 @@ import java.util.List;
  * This class is the interface between the API and Database. It supports <code>StockDataPoint</code> and
  * <code>StockSymbolPoint</code>.
  */
-public class StockResults implements CanBeTable {
+public class StockResults implements CanBeTable, CanSaveCSV {
 	private HashMap<StockValueType, Float>	mLowerBounds,
 						mUpperBounds;
 	private LocalDateTime	mOldestDate,
@@ -23,10 +26,56 @@ public class StockResults implements CanBeTable {
 			mName;
 	private Type mTableType;
 
-	public enum Type{
+	@Override
+	public String toCSVString() {
+		var sOut = new StringBuilder(mTableType.toCSVString());
+		if(mTableType.equals(Type.DATA)){
+			try{
+				throw new ExecutionControl.NotImplementedException("Converting a Data-Stockresults into a CSV not implemented yet.");
+			}catch(ExecutionControl.NotImplementedException e){
+				e.printStackTrace();
+				return "";
+			}
+		}else if(mTableType.equals(Type.SYMBOL)){
+			for(var entry : mSymbolPoints){
+				sOut.append(entry.getSymbol().concat(","));
+				sOut.append(entry.getName().concat(","));
+				sOut.append(entry.getExchange().toString().concat(","));
+				sOut.append(entry.getAsset().toString().concat(","));
+				sOut.append(entry.getIpoDate().format(DateTimeFormatter.ISO_DATE).concat(","));
+				sOut.append(entry.getDelistingDate().format(DateTimeFormatter.ISO_DATE).concat(","));
+				sOut.append(entry.getStatus().toString());
+			}
+			sOut.append(String.format("%n"));
+		}
+		return sOut.toString();
+	}
+
+	public enum Type implements CanSaveCSV{
 		NOT_SET,
 		DATA,
 		SYMBOL;
+
+
+		@Override
+		public String toCSVString() {
+			var sOut = new StringBuilder();
+			if (this.equals(Type.DATA)) {
+				try {
+					throw new ExecutionControl.NotImplementedException("Converting a Data-Stockresults-Type into a CSV not implemented yet.");
+				} catch (ExecutionControl.NotImplementedException e) {
+					e.printStackTrace();
+					return "";
+				}
+			} else if (this.equals(Type.SYMBOL)) {
+				for(var x : DatabaseNames_Symbol.values()){
+					sOut.append(x.toString());
+					sOut.append(',');
+				}
+				sOut.append(String.format("%n"));
+			}
+			return sOut.toString();
+		}
 	}
 
 	public enum DatabaseNames_Data{
@@ -57,6 +106,11 @@ public class StockResults implements CanBeTable {
 		symbol_ipoDate,
 		symbol_delistingDate,
 		symbol_status;
+
+		@Override
+		public String toString(){
+			return this.name().replace("symbol_", "");
+		}
 	}
 
 	@Override

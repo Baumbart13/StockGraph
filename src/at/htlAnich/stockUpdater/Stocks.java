@@ -141,6 +141,7 @@ public class Stocks {
 	public static StockResults loadSymbols(String loadFromFile, ApiParser parser){
 		var symbols = new StockResults("");
 		BufferedReader reader = null;
+		BufferedWriter writer = null; // if symbols.csv are not present on first time here.
 		var file = new File(loadFromFile);
 
 		try{
@@ -175,6 +176,11 @@ public class Stocks {
 						ApiParser.Outputsize.full,
 						ApiParser.DataType.csv
 				);
+				writer = new BufferedWriter(new FileWriter(loadFromFile));
+				for(var line : symbols.toCSVString().split(String.format("%n"))){
+					writer.write(line);
+				}
+
 			}catch(IOException ex){
 				ex.printStackTrace();
 			}
@@ -184,8 +190,9 @@ public class Stocks {
 		}finally{
 			try {
 				if(reader != null)reader.close();
+				if(writer != null)writer.close();
 			} catch (IOException e) {
-				errf("Couldn't close file\t\"%s\"%nNot that relevant, because of only Read-Access.",
+				errf("Couldn't close file\t\"%s\"%nNot that relevant, because of Read-Access only.",
 						loadFromFile);
 				e.printStackTrace();
 			}
