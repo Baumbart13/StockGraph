@@ -47,7 +47,7 @@ public class StockDataPoint {
 	 */
 	public float getValue(StockValueType type, long daysAvg){
 		if(type != StockValueType.avgValue){
-			return mValues.get(type);
+			return (mValues.get(type)==null) ? 1.0f : mValues.get(type);
 		}
 		return mAvgs.get(daysAvg & ~0x8000_0000_0000_0000L);
 	}
