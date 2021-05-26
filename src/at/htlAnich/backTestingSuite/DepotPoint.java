@@ -19,12 +19,13 @@ public class DepotPoint implements Comparable {
 	private int mBuyAmount	= 0;
 	private int mStocks		= 0;
 	private float mWorth	= 0.0f;
+	private float mAvg200	= 0.0f;
 
 	public DepotPoint(){
-		this(LocalDate.now(), "", BuyFlag.UNCHANGED, 0, 0, 0.0f);
+		this(LocalDate.now(), "", BuyFlag.UNCHANGED, 0, 0, 0.0f, 0.0f);
 	}
 
-	public DepotPoint(@NotNull LocalDate date, @NotNull String symbol, BuyFlag flag, int buyAmount, int totalStocks, float totalWorth){
+	public DepotPoint(@NotNull LocalDate date, @NotNull String symbol, BuyFlag flag, int buyAmount, int totalStocks, float totalWorth, float avg200){
 		mDate = date;
 		mSymbol = symbol;
 		mFlag = (flag == null) ? BuyFlag.UNCHANGED : flag;
@@ -33,6 +34,7 @@ public class DepotPoint implements Comparable {
 		mBuyAmount = Math.abs(buyAmount);
 		mStocks = Math.abs(totalStocks);
 		mWorth = Math.abs(totalWorth);
+		mAvg200 = avg200;
 	}
 
 	@NotNull
@@ -60,6 +62,10 @@ public class DepotPoint implements Comparable {
 
 	public float getWorth() {
 		return mWorth;
+	}
+
+	public float getavg200(){
+		return mAvg200;
 	}
 
 	/**

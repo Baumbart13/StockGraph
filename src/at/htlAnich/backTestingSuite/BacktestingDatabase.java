@@ -33,7 +33,7 @@ public class BacktestingDatabase extends Database {
 		stmnt.execute();
 	}
 
-	public Depot getValues(String symbol){
+	public Depot getValues(String symbol, Depot.Strategy strategy){
 		return new Depot();
 	}
 
@@ -78,7 +78,7 @@ public class BacktestingDatabase extends Database {
 			// backtesting_stocks
 			// backtesting_worth
 			StringBuilder stmntText = new StringBuilder(String.format(
-					"INSERT INTO %s (%s, %s, %s, %s, %s, %s) VALUES (? ? ? ? ? ?) ON DUPLICATE KEY UPDATE %s=?, %s=?, %s=?, %s=?;",
+					"INSERT INTO %s (%s, %s, %s, %s, %s, %s, %s) VALUES (? ? ? ? ? ? ?) ON DUPLICATE KEY UPDATE %s=?, %s=?, %s=?, %s=?;",
 					dep.getTableName(),
 					"backtesting_date",
 					"backtesting_symbol",

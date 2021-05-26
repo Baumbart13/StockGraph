@@ -16,6 +16,13 @@ public abstract class Database {
 	}
 
 	public Database(String hostname, String user, String password, String database){
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+		}catch(ClassNotFoundException e){
+			at.htlAnich.tools.BaumbartLogger.errf("JDBC is not installed. Please first install the driver and try to run this program afterwards.%n");
+			System.exit(-1);
+		}
+
 		if(hostname.length() < 1 ||
 		user.length() < 1 ||
 		password.length() < 1 ||

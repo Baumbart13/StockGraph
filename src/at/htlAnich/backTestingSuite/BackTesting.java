@@ -2,6 +2,7 @@ package at.htlAnich.backTestingSuite;
 
 import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -38,16 +39,18 @@ public class BackTesting {
 		logf("Please enter your wanted stock: ");
 		var symbol = cliInput.nextLine();
 
-		Depot vals = null;
+		var vals = new Depot[Depot.Strategy.values().length];
 		try {
 			var backDb = new BacktestingDatabase("localhost:3306", "root", "DuArschloch4", "baumbartstocks");
 			backDb.connect();
 			backDb.createDatabase(backDb.getDatabase());
 			backDb.createTable(BacktestingDatabase._TABLE_NAME);
-			vals = backDb.getValues(symbol);
-			Trader.trade(vals);
+			for(var strat : Depot.Strategy.values()) {
+				var val = backDb.getValues(symbol, strat);
 
-			backDb.updateDepots(vals, symbol);
+				Trader.trade(val, symbol);
+				backDb.updateDepots(val, symbol);
+			}
 			backDb.disconnect();
 		}catch (SQLException e){
 			e.printStackTrace();
