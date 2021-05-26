@@ -20,9 +20,10 @@ public abstract class MySQL extends Database{
 		}
 
 		mConnection = DriverManager.getConnection(String.format(
-			"jdbc:mysql://%s/%s?user=%s&password=%s?serverTimezone=UTC",
-			mHostname, mDatabase, mUser, mPassword
-		));
+				"jdbc:mysql://%s/%s", mHostname, mDatabase),
+				mUser,
+				mPassword
+		);
 		return;
 	}
 

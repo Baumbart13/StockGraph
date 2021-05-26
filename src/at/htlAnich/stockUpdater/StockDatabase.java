@@ -16,6 +16,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import static at.htlAnich.tools.BaumbartLogger.errf;
+import static at.htlAnich.tools.BaumbartLogger.logf;
 
 /**
  * @author Baumbart13
@@ -62,7 +63,7 @@ public class StockDatabase extends MySQL implements CanBeTable {
 					"%s FLOAT," +			// data_volume
 					"%s FLOAT," +			// data_splitCoefficient
 					"%s FLOAT," +			// data_close_adjusted
-					"PRIMARY KEY(%s, %s);",		// data_datetime, data_symbol
+					"PRIMARY KEY(%s, %s));",		// data_datetime, data_symbol
 
 				tableName,
 				// PRIMARY KEYS
@@ -165,7 +166,7 @@ public class StockDatabase extends MySQL implements CanBeTable {
 			}
 
 			// 6 values will be inserted .. starting at open
-			stmntText.append(") VALUES (?, ?, ?, ?, ?, ?");
+			stmntText.append(") VALUES (?, ?, ?, ?, ?, ?, ?");
 			for(i = 0; i < avgs.length; ++i){
 				stmntText.append(", ?");
 			}
@@ -213,7 +214,9 @@ public class StockDatabase extends MySQL implements CanBeTable {
 			// 15   - data_splitCoefficient
 			// 16.. - data_avg..
 
+			logf(stmnt.toString() + "%n");
 			stmnt.setDate(1, Date.valueOf(dataPoint.mDateTime.toLocalDate()));
+			logf(stmnt.toString() + "%n");
 			stmnt.setString(2, results.getName());
 			stmnt.setFloat(3, dataPoint.getValue(StockValueType.open));
 			stmnt.setFloat(4, dataPoint.getValue(StockValueType.close));
@@ -221,10 +224,9 @@ public class StockDatabase extends MySQL implements CanBeTable {
 			stmnt.setFloat(6, dataPoint.getValue(StockValueType.low));
 			stmnt.setFloat(7, dataPoint.getValue(StockValueType.volume));
 			stmnt.setFloat(8, dataPoint.getValue(StockValueType.splitCoefficient));
-			for(i = 0; i < avgs.length; ++i){
-				stmnt.setFloat(9+i, dataPoint.getValue(StockValueType.avgValue, avgs[i]));
+			for(i = 9; i < avgs.length-9; ++i){
+				stmnt.setFloat(i, dataPoint.getValue(StockValueType.avgValue, avgs[i]));
 			}
-			i = 9+6+i;
 			// ON DUPLICATE KEY UPDATE
 			stmnt.setFloat(i++, dataPoint.getValue(StockValueType.open));
 			stmnt.setFloat(i++, dataPoint.getValue(StockValueType.close));
@@ -232,9 +234,13 @@ public class StockDatabase extends MySQL implements CanBeTable {
 			stmnt.setFloat(i++, dataPoint.getValue(StockValueType.low));
 			stmnt.setFloat(i++, dataPoint.getValue(StockValueType.volume));
 			stmnt.setFloat(i++, dataPoint.getValue(StockValueType.splitCoefficient));
+			logf(stmnt.toString() + "%n");
 			for(int j = 0; j < avgs.length; ++j){
 				stmnt.setFloat(i++, dataPoint.getValue(StockValueType.avgValue, avgs[j]));
 			}
+
+			logf(stmnt.toString());
+			at.htlAnich.tools.BaumbartLogger.waitForKeyPress();
 
 			// finally update that shit
 			stmnt.executeUpdate();
@@ -376,7 +382,9 @@ public class StockDatabase extends MySQL implements CanBeTable {
 			var rs = stmnt.executeQuery();
 			while(rs.next()){
 				var line = rs.getString("Field");
-				out.add(Long.valueOf(line.replace("avg", "")));
+				if(line.contains("avg")){
+					out.add(Long.valueOf(line.replace("data_avg", "")));
+				}
 			}
 
 		}catch(SQLException e){

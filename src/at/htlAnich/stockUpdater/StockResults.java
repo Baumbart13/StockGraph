@@ -64,6 +64,10 @@ public class StockResults implements CanBeTable, CanSaveCSV {
 		DATA,
 		SYMBOL;
 
+		@Override
+		public String toString(){
+			return "stock_" + this.name().toLowerCase();
+		}
 
 		@Override
 		public String toCSVString() {
@@ -268,6 +272,7 @@ public class StockResults implements CanBeTable, CanSaveCSV {
 	 * @return A string, which tells if this object handles the data or the symbols.
 	 */
 	public String getTableName(){
+		if(!mTableType.equals(Type.NOT_SET)) return mTableType.toString();
 		if(mDataPoints == null && mSymbolPoints != null){
 			return StockDatabase._TABLE_NAME__SYMBOLS;
 		}
