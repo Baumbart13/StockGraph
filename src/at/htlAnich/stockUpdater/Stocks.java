@@ -147,9 +147,12 @@ public class Stocks {
 		try{
 			reader = new BufferedReader(new FileReader(file));
 
-			var line = reader.readLine().trim();
-			if(!line.equalsIgnoreCase("symbol,name,exchange,assetType,ipoDate,delistingDate,status")){
-				return new StockResults("FATAL API ERROR");
+			var line = reader.readLine();
+			if(line == null || line.equalsIgnoreCase("")){
+				throw new FileNotFoundException();
+			}
+			if(!line.trim().equalsIgnoreCase("symbol,name,exchange,assetType,ipoDate,delistingDate,status")){
+				return new StockResults("FATAL SYMBOLS ERROR");
 			}
 
 			while((line = reader.readLine()) != null){
@@ -177,8 +180,9 @@ public class Stocks {
 						ApiParser.DataType.csv
 				);
 				writer = new BufferedWriter(new FileWriter(loadFromFile));
-				for(var line : symbols.toCSVString().split(String.format("%n"))){
+				for(var line : symbols.toCSVString().split(System.lineSeparator())){
 					writer.write(line);
+					writer.newLine();
 				}
 
 			}catch(IOException ex){

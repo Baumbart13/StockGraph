@@ -38,15 +38,23 @@ public class StockResults implements CanBeTable, CanSaveCSV {
 			}
 		}else if(mTableType.equals(Type.SYMBOL)){
 			for(var entry : mSymbolPoints){
-				sOut.append(entry.getSymbol().concat(","));
-				sOut.append(entry.getName().concat(","));
-				sOut.append(entry.getExchange().toString().concat(","));
-				sOut.append(entry.getAsset().toString().concat(","));
-				sOut.append(entry.getIpoDate().format(DateTimeFormatter.ISO_DATE).concat(","));
-				sOut.append(entry.getDelistingDate().format(DateTimeFormatter.ISO_DATE).concat(","));
-				sOut.append(entry.getStatus().toString());
+				var symbol = (entry.getSymbol() == null) ? "null," : entry.getSymbol().concat(",");
+				var name = (entry.getName() == null) ? "null," : entry.getName().concat(",");
+				var exchange = (entry.getExchange() == null) ? "null," : entry.getExchange().toString().concat(",");
+				var asset = (entry.getAsset() == null) ? "null," : entry.getAsset().toString().concat(",");
+				var ipoDate = (entry.getIpoDate() == null) ? "null," : entry.getIpoDate().format(DateTimeFormatter.ISO_DATE).concat(",");
+				var delistingDate = (entry.getDelistingDate() == null) ? "null," : entry.getDelistingDate().format(DateTimeFormatter.ISO_DATE).concat(",");
+				var status = (entry.getStatus() == null) ? "null," : entry.getStatus().toString();
+
+				sOut.append(symbol);
+				sOut.append(name);
+				sOut.append(exchange);
+				sOut.append(asset);
+				sOut.append(ipoDate);
+				sOut.append(delistingDate);
+				sOut.append(status);
+				sOut.append(System.lineSeparator());
 			}
-			sOut.append(String.format("%n"));
 		}
 		return sOut.toString();
 	}
@@ -72,7 +80,8 @@ public class StockResults implements CanBeTable, CanSaveCSV {
 					sOut.append(x.toString());
 					sOut.append(',');
 				}
-				sOut.append(String.format("%n"));
+				sOut.deleteCharAt(sOut.lastIndexOf(","));
+				sOut.append(System.lineSeparator());
 			}
 			return sOut.toString();
 		}

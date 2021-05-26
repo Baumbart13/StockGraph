@@ -80,6 +80,6 @@ public class StockDataPoint {
 	}
 
 	public Long[] getAverages(){
-		return (Long[]) mAvgs.keySet().toArray();
+		return mAvgs.keySet().toArray(new Long[mAvgs.keySet().size()]);
 	}
 }
