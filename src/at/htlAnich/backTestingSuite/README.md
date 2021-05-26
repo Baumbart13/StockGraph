@@ -23,9 +23,9 @@ Die Anwendung soll einen Börsenhandel simulieren. In dieser Börsenhandel-Simul
 ## Implementierungshinweise
 Die einzelnen Trades, könnten in einer Tabelle mit folgenden Spalten gespeichert werden:
 
-|date|ticker|flag|stücke|depotkonto|
-|----|------|----|------|----------|
-|wann fand dieser Trade statt|aktienticker (z.B. IBM)|buy/sell oder 1/0 als flag ob gekauft oder verkauft|wieviel Aktien habe ich|wie viel USD habe ich nach dem Handel/Trade
+|date|ticker|flag|stücke|delta|depotkonto|
+|----|------|----|------|-----|----------|
+|wann fand dieser Trade statt|aktienticker (z.B. IBM)|buy/sell oder 1/0 als flag ob gekauft oder verkauft|wieviel Aktien habe ich|wie viel Aktien wurden gehandelt|wie viel ist das Depot wert?|
 
 ## HINWEISE / zum Überlegen:
 - man kann nur ganze Aktien kaufen! man wird nicht das ganze Depotkonto investieren können
