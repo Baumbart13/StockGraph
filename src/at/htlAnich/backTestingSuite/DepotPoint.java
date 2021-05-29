@@ -2,7 +2,6 @@ package at.htlAnich.backTestingSuite;
 
 import java.time.LocalDate;
 
-import at.htlAnich.stockUpdater.StockSymbolPoint;
 import org.jetbrains.annotations.NotNull;
 
 public class DepotPoint implements Comparable {
@@ -17,15 +16,16 @@ public class DepotPoint implements Comparable {
 	private String mSymbol	= null;
 	private BuyFlag mFlag	= null;
 	private int mBuyAmount	= 0;
-	private int mStocks		= 0;
+	private int mStocks	= 0;
 	private float mWorth	= 0.0f;
 	private float mAvg200	= 0.0f;
+	private float mClose	= 0.0f;
 
 	public DepotPoint(){
-		this(LocalDate.now(), "", BuyFlag.UNCHANGED, 0, 0, 0.0f, 0.0f);
+		this(LocalDate.now(), "", BuyFlag.UNCHANGED, 0, 0, 0.0f, 0.0f, 0.0f);
 	}
 
-	public DepotPoint(@NotNull LocalDate date, @NotNull String symbol, BuyFlag flag, int buyAmount, int totalStocks, float totalWorth, float avg200){
+	public DepotPoint(@NotNull LocalDate date, @NotNull String symbol, BuyFlag flag, int buyAmount, int totalStocks, float totalWorth, float avg200, float close){
 		mDate = date;
 		mSymbol = symbol;
 		mFlag = (flag == null) ? BuyFlag.UNCHANGED : flag;
@@ -35,6 +35,7 @@ public class DepotPoint implements Comparable {
 		mStocks = Math.abs(totalStocks);
 		mWorth = Math.abs(totalWorth);
 		mAvg200 = avg200;
+		mClose = close;
 	}
 
 	@NotNull
@@ -64,8 +65,12 @@ public class DepotPoint implements Comparable {
 		return mWorth;
 	}
 
-	public float getavg200(){
+	public float getAvg200(){
 		return mAvg200;
+	}
+
+	public float getClose(){
+		return mClose;
 	}
 
 	/**

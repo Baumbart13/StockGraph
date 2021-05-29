@@ -7,12 +7,14 @@ import java.util.List;
 import java.util.Scanner;
 
 import at.htlAnich.backTestingSuite.ProgramArguments;
+import at.htlAnich.backTestingSuite.badCode.damnShit;
 
 import static at.htlAnich.tools.BaumbartLogger.logf;
 
 
 public class BackTesting {
 	public static Scanner cliInput = new Scanner(System.in);
+	public static at.htlAnich.backTestingSuite.badCode.damnShit damn = new damnShit();
 
 	public static void argumentHandling(List<String> args){
 		if(args == null){
@@ -38,6 +40,8 @@ public class BackTesting {
 		argumentHandling(Arrays.asList(args));
 		logf("Please enter your wanted stock: ");
 		var symbol = cliInput.nextLine();
+
+		damn.getValuesAndUpdateDatabase(symbol);
 
 		var vals = new Depot[Depot.Strategy.values().length];
 		try {

@@ -22,8 +22,13 @@ public class Depot implements CanBeTable {
 		NONE,
 		avg200,
 		avg200_3percent,
-		buyAndHold,
+		buyAndHold(7),
 		avg200_false;
+
+		private int delayBetweenBuys = -1;
+		Strategy(){}
+		Strategy(int delay){ delayBetweenBuys = delay; }
+		public Integer delayBetweenDays(){return delayBetweenBuys<1 ? null : delayBetweenBuys;}
 	}
 
 	public Depot(Strategy strat, DepotPoint ... points){
